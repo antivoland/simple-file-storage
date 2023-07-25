@@ -8,10 +8,12 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class DocumentFileStorageTest {
+class RegularFileStorageTest {
+    record Monkey(String val) {}
+
     @Test
     void test(@TempDir Path dir) {
-        var storage = new DocumentFileStorage<>(dir.resolve("docs"), Monkey.class);
+        var storage = Storage.regular(dir.resolve("docs"), "json", Monkey.class);
 
         assertThat(storage.count()).isEqualTo(0);
         assertThat(storage.listIds()).isEmpty();
@@ -47,6 +49,4 @@ class DocumentFileStorageTest {
         assertThat(storage.load("hear-no-evil")).isEqualTo(new Monkey("🙉"));
         assertThat(storage.load("speak-no-evil")).isEqualTo(new Monkey("🙊"));
     }
-
-    record Monkey(String val) {}
 }

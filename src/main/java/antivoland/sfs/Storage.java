@@ -1,5 +1,6 @@
 package antivoland.sfs;
 
+import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public interface Storage<DATA> {
@@ -18,4 +19,8 @@ public interface Storage<DATA> {
     DATA load(String id);
 
     void save(String id, DATA data);
+
+    static <DATA> Storage<DATA> regular(Path directory, String fileExtension, Class<DATA> clazz) {
+        return new RegularFileStorage<>(directory, fileExtension, clazz);
+    }
 }

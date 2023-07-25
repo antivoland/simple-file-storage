@@ -53,6 +53,7 @@
         <java.version>17</java.version>
 
         <jackson.version>2.15.2</jackson.version>
+        <commons-compress.version>1.23.0</commons-compress.version>
         <junit.version>5.10.0</junit.version>
         <assertj.version>3.24.2</assertj.version>
 
@@ -74,6 +75,13 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- https://github.com/apache/commons-compress -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>${commons-compress.version}</version>
         </dependency>
 
         <!-- https://github.com/junit-team/junit5 -->
