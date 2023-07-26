@@ -26,8 +26,8 @@ public class LocalFileCache<DATA> {
         if (!Files.exists(directory)) {
             return Stream.empty();
         }
-        try (var files = Files.walk(directory).filter(Files::isRegularFile).filter(this::hasRequiredFileExtension)) {
-            return files.map(this::fileId).toList().stream();
+        try (var files = Files.walk(directory).filter(Files::isRegularFile).filter(fileType::hasRequiredExtension)) {
+            return files.map(fileType::id).toList().stream();
         } catch (IOException e) {
             throw new LocalFileCacheException(format("Failed to traverse files in directory '%s'", directory), e);
         }
@@ -69,27 +69,7 @@ public class LocalFileCache<DATA> {
     }
 
     private Path file(String id, boolean provideDirectory) {
-        return (provideDirectory ? provideDirectory(directory) : directory).resolve(fileName(id, fileType.extension));
-    }
-
-    private boolean hasRequiredFileExtension(Path file) {
-        return fileName(file).toLowerCase().endsWith("." + fileType.extension.toLowerCase());
-    }
-
-    private String fileId(Path file) {
-        return fileId(fileName(file));
-    }
-
-    private String fileId(String fileName) {
-        return fileName.substring(0, fileName.length() - fileType.extension.length() - 1);
-    }
-
-    private static String fileName(Path file) {
-        return file.getFileName().toString();
-    }
-
-    private static String fileName(String id, String fileExtension) {
-        return id + "." + fileExtension;
+        return (provideDirectory ? provideDirectory(directory) : directory).resolve(fileType.name(id));
     }
 
     private static Path provideDirectory(Path directory) {

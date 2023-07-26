@@ -9,29 +9,6 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RegularLocalFileCacheTest {
-    static String MONAS = """
-                                           ____                            .------.
-                                         o8%8888,                         /        \\
-                                       o88%8888888.                     .' /  \\     `.
-                                  '   8'-    -:8888b             _______|____________|
-                                 :   8'         8888              ""\"""8""\"""\"""\""8888
-                                ` ' d8.-=. ,==-.:888b                 d8.-=. ,==-.:888b
-                                 `  >8 `~` :`~' d8888                 >8 `~` :`~' d8888
-                                `:: 88         ,88888                 88         ,88888
-                                 `' 88b. `-~  ':88888                 88b. `-~  ':88888
-                                  `eeeeeee==~ .:88888                 888b ~==~ .:88888
-                                    88888o--:':::8888                 88888o--:':::8888
-                                    `88888| :::' 8888b                `88888| :::' 8888b
-                                    8888^^'       8888b               8888^^'       8888b
-                                   d888           ,%888b.            d888           ,%888b.
-                                  d88%            %%%8--'-.         d88%            %%%8--'-.
-                                 /88:.__ ,       _%-' ---  -       /88:.__ ,       _%-' ---  -
-                                     '''::===..-'   =  --.  `          '''::===..-'   =  --.  `
-
-                                    Cigar smoking Mona                  Capped Mona
-
-            """;
-
     @Test
     void testTexts(@TempDir Path directory) {
         var cache = LocalFileCache.regular(
