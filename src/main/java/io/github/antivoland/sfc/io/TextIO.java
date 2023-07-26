@@ -1,4 +1,4 @@
-package antivoland.sfc.io;
+package io.github.antivoland.sfc.io;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

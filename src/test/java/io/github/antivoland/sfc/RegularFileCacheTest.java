@@ -1,4 +1,4 @@
-package antivoland.sfc;
+package io.github.antivoland.sfc;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

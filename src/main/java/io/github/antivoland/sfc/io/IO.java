@@ -1,6 +1,6 @@
-package antivoland.sfc.io;
+package io.github.antivoland.sfc.io;
 
-import antivoland.sfc.FileType;
+import io.github.antivoland.sfc.FileType;
 
 import java.io.IOException;
 import java.io.InputStream;

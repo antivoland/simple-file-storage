@@ -6,7 +6,7 @@ Java library for easy management of local file cache. Best used with any HTML pa
 
 ```xml
 <dependency>
-    <groupId>antivoland</groupId>
+    <groupId>io.github.antivoland</groupId>
     <artifactId>simple-file-cache</artifactId>
     <version>X.Y.Z</version>
 </dependency>

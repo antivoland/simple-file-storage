@@ -1,6 +1,6 @@
-package antivoland.sfc.io;
+package io.github.antivoland.sfc.io;
 
-import antivoland.sfc.FileType;
+import io.github.antivoland.sfc.FileType;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;

@@ -1,4 +1,4 @@
-package antivoland.sfc;
+package io.github.antivoland.sfc;
 
 import java.io.IOException;
 import java.io.InputStream;

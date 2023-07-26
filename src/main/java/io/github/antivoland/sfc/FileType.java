@@ -1,6 +1,6 @@
-package antivoland.sfc;
+package io.github.antivoland.sfc;
 
-import antivoland.sfc.io.IO;
+import io.github.antivoland.sfc.io.IO;
 
 import java.nio.file.Path;
 
