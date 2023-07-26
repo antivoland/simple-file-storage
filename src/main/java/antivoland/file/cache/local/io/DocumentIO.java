@@ -1,4 +1,4 @@
-package antivoland.file.cache.local;
+package antivoland.file.cache.local.io;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -8,14 +8,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-class LocalFileIO {
+class DocumentIO<DATA> implements IO<DATA> {
     private static final ObjectMapper MAPPER = JsonMapper.builder().addModule(new JavaTimeModule()).build();
 
-    static <DATA> DATA read(InputStream i, Class<DATA> clazz) throws IOException {
+    private final Class<DATA> clazz;
+
+    DocumentIO(Class<DATA> clazz) {
+        this.clazz = clazz;
+    }
+
+    @Override
+    public DATA read(InputStream i) throws IOException {
         return MAPPER.readValue(i, clazz);
     }
 
-    static <DATA> void write(OutputStream o, DATA data) throws IOException {
+    @Override
+    public void write(OutputStream o, DATA data) throws IOException {
         MAPPER.writerWithDefaultPrettyPrinter().writeValue(o, data);
     }
 }

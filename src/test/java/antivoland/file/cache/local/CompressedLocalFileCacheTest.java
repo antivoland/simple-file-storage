@@ -3,48 +3,210 @@ package antivoland.file.cache.local;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CompressedLocalFileCacheTest {
     @Test
-    void test(@TempDir Path dir) {
-        var cache = LocalFileCache.compressed(dir.resolve("cache"), "html", String.class);
+    void testTexts(@TempDir Path directory) {
+        var cache = LocalFileCache.compressed(
+                directory.resolve("compressed").resolve("texts"),
+                FileType.text("txt"));
 
-        assertThat(cache.count()).isEqualTo(0);
-        assertThat(cache.listIds()).isEmpty();
-        assertThat(cache.list()).isEmpty();
-        assertThat(cache.exists("see-no-evil")).isFalse();
-        assertThat(cache.exists("hear-no-evil")).isFalse();
-        assertThat(cache.exists("speak-no-evil")).isFalse();
-        assertThat(cache.load("see-no-evil")).isEqualTo(null);
-        assertThat(cache.load("hear-no-evil")).isEqualTo(null);
-        assertThat(cache.load("speak-no-evil")).isEqualTo(null);
+        assertThat(directory.resolve("compressed").resolve("texts")).doesNotExist();
+        LocalFileCacheTest.load(cache, Map.of(
+                "Dracula Mona", """
+                                  ____
+                                o8%8888,
+                              o88%8888888.
+                             8'-    -:8888b
+                            8'         8888
+                           d8.-=. ,==-.:888b
+                           >8 `~` :`~' d8888
+                           88         ,88888
+                           88b. `-~  ':88888
+                           888b v=v~ .:88888
+                           88888o--:':::8888
+                           `88888| :::' 8888b
+                           8888^^'       8888b
+                          d888           ,%888b.
+                         d88%            %%%8--'-.
+                        /88:.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """,
+                "Sinéad O'Mona", """
+                                
+                                .-----.
+                              .'       `.
+                             .'..    :. `.
+                            .'           |
+                            |.-=. ,==-.: |
+                            | `~` :`~'   :
+                            `.        , :
+                             `. `-~  '::|
+                              `.~==~ .::|
+                                `--:'::::
+                                 | :::' `.
+                            _.-""'        ~-.
+                          .':                `..
+                         / .'               .--'-.
+                        /  :.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """
+        ));
+        assertThat(directory.resolve("compressed").resolve("texts")).exists().isNotEmptyDirectory();
 
-        assertThat(Files.exists(dir.resolve("cache"))).isFalse();
-        assertThat(Files.exists(dir.resolve("cache").resolve("see-no-evil.tar.gz"))).isFalse();
-        assertThat(Files.exists(dir.resolve("cache").resolve("hear-no-evil.tar.gz"))).isFalse();
-        assertThat(Files.exists(dir.resolve("cache").resolve("speak-no-evil.tar.gz"))).isFalse();
+        assertThat(directory.resolve("compressed").resolve("texts").resolve("Dracula Mona.tar.gz"))
+                .exists()
+                .isRegularFile()
+                .isNotEmptyFile();
 
-        cache.save("see-no-evil", "<🙈>");
-        cache.save("hear-no-evil", "<🙉>");
-        cache.save("speak-no-evil", "<🙊>");
+        assertThat(cache.load("Dracula Mona"))
+                .isEqualTo("""
+                                  ____
+                                o8%8888,
+                              o88%8888888.
+                             8'-    -:8888b
+                            8'         8888
+                           d8.-=. ,==-.:888b
+                           >8 `~` :`~' d8888
+                           88         ,88888
+                           88b. `-~  ':88888
+                           888b v=v~ .:88888
+                           88888o--:':::8888
+                           `88888| :::' 8888b
+                           8888^^'       8888b
+                          d888           ,%888b.
+                         d88%            %%%8--'-.
+                        /88:.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """);
+        assertThat(directory.resolve("compressed").resolve("texts").resolve("Sinéad O'Mona.tar.gz"))
+                .exists()
+                .isRegularFile()
+                .isNotEmptyFile();
 
-        assertThat(Files.exists(dir.resolve("cache"))).isTrue();
-        assertThat(Files.exists(dir.resolve("cache").resolve("see-no-evil.tar.gz"))).isTrue();
-        assertThat(Files.exists(dir.resolve("cache").resolve("hear-no-evil.tar.gz"))).isTrue();
-        assertThat(Files.exists(dir.resolve("cache").resolve("speak-no-evil.tar.gz"))).isTrue();
+        assertThat(cache.load("Sinéad O'Mona"))
+                .isEqualTo("""
+                                
+                                .-----.
+                              .'       `.
+                             .'..    :. `.
+                            .'           |
+                            |.-=. ,==-.: |
+                            | `~` :`~'   :
+                            `.        , :
+                             `. `-~  '::|
+                              `.~==~ .::|
+                                `--:'::::
+                                 | :::' `.
+                            _.-""'        ~-.
+                          .':                `..
+                         / .'               .--'-.
+                        /  :.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """);
+    }
 
-        assertThat(cache.count()).isEqualTo(3);
-        assertThat(cache.listIds()).containsOnly("see-no-evil", "hear-no-evil", "speak-no-evil");
-        assertThat(cache.list()).containsOnly("<🙈>", "<🙉>", "<🙊>");
-        assertThat(cache.exists("see-no-evil")).isTrue();
-        assertThat(cache.exists("hear-no-evil")).isTrue();
-        assertThat(cache.exists("speak-no-evil")).isTrue();
-        assertThat(cache.load("see-no-evil")).isEqualTo("<🙈>");
-        assertThat(cache.load("hear-no-evil")).isEqualTo("<🙉>");
-        assertThat(cache.load("speak-no-evil")).isEqualTo("<🙊>");
+    @Test
+    void testDocuments(@TempDir Path directory) {
+        var cache = LocalFileCache.compressed(
+                directory.resolve("compressed").resolve("documents"),
+                FileType.document("json", Document.class));
+
+        assertThat(directory.resolve("compressed").resolve("json")).doesNotExist();
+        LocalFileCacheTest.load(cache, Map.of(
+                "Cigar smoking Mona", Document.create("""
+                                   ____
+                                 o8%8888,
+                               o88%8888888.
+                          '   8'-    -:8888b
+                         :   8'         8888
+                        ` ' d8.-=. ,==-.:888b
+                         `  >8 `~` :`~' d8888
+                        `:: 88         ,88888
+                         `' 88b. `-~  ':88888
+                          `eeeeeee==~ .:88888
+                            88888o--:':::8888
+                            `88888| :::' 8888b
+                            8888^^'       8888b
+                           d888           ,%888b.
+                          d88%            %%%8--'-.
+                         /88:.__ ,       _%-' ---  -
+                             '''::===..-'   =  --.  `
+                        """),
+                "Capped Mona", Document.create("""
+                                  .------.
+                                 /        \\
+                               .' /  \\     `.
+                        _______|____________|
+                         ""\"""8""\"""\"""\""8888
+                             d8.-=. ,==-.:888b
+                             >8 `~` :`~' d8888
+                             88         ,88888
+                             88b. `-~  ':88888
+                             888b ~==~ .:88888
+                             88888o--:':::8888
+                             `88888| :::' 8888b
+                             8888^^'       8888b
+                            d888           ,%888b.
+                           d88%            %%%8--'-.
+                          /88:.__ ,       _%-' ---  -
+                              '''::===..-'   =  --.  `
+                        """)));
+        assertThat(directory.resolve("compressed").resolve("documents")).exists().isNotEmptyDirectory();
+
+        assertThat(directory.resolve("compressed").resolve("documents").resolve("Cigar smoking Mona.tar.gz"))
+                .exists()
+                .isRegularFile()
+                .isNotEmptyFile();
+
+        assertThat(cache.load("Cigar smoking Mona"))
+                .isEqualTo(Document.create("""
+                                   ____
+                                 o8%8888,
+                               o88%8888888.
+                          '   8'-    -:8888b
+                         :   8'         8888
+                        ` ' d8.-=. ,==-.:888b
+                         `  >8 `~` :`~' d8888
+                        `:: 88         ,88888
+                         `' 88b. `-~  ':88888
+                          `eeeeeee==~ .:88888
+                            88888o--:':::8888
+                            `88888| :::' 8888b
+                            8888^^'       8888b
+                           d888           ,%888b.
+                          d88%            %%%8--'-.
+                         /88:.__ ,       _%-' ---  -
+                             '''::===..-'   =  --.  `
+                        """));
+        assertThat(directory.resolve("compressed").resolve("documents").resolve("Capped Mona.tar.gz"))
+                .exists()
+                .isRegularFile()
+                .isNotEmptyFile();
+
+        assertThat(cache.load("Capped Mona"))
+                .isEqualTo(Document.create("""
+                                  .------.
+                                 /        \\
+                               .' /  \\     `.
+                        _______|____________|
+                         ""\"""8""\"""\"""\""8888
+                             d8.-=. ,==-.:888b
+                             >8 `~` :`~' d8888
+                             88         ,88888
+                             88b. `-~  ':88888
+                             888b ~==~ .:88888
+                             88888o--:':::8888
+                             `88888| :::' 8888b
+                             8888^^'       8888b
+                            d888           ,%888b.
+                           d88%            %%%8--'-.
+                          /88:.__ ,       _%-' ---  -
+                              '''::===..-'   =  --.  `
+                        """));
     }
 }

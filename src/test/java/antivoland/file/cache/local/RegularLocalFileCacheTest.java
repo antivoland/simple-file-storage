@@ -3,50 +3,233 @@ package antivoland.file.cache.local;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RegularLocalFileCacheTest {
-    record Monkey(String val) {}
+    static String MONAS = """
+                                           ____                            .------.
+                                         o8%8888,                         /        \\
+                                       o88%8888888.                     .' /  \\     `.
+                                  '   8'-    -:8888b             _______|____________|
+                                 :   8'         8888              ""\"""8""\"""\"""\""8888
+                                ` ' d8.-=. ,==-.:888b                 d8.-=. ,==-.:888b
+                                 `  >8 `~` :`~' d8888                 >8 `~` :`~' d8888
+                                `:: 88         ,88888                 88         ,88888
+                                 `' 88b. `-~  ':88888                 88b. `-~  ':88888
+                                  `eeeeeee==~ .:88888                 888b ~==~ .:88888
+                                    88888o--:':::8888                 88888o--:':::8888
+                                    `88888| :::' 8888b                `88888| :::' 8888b
+                                    8888^^'       8888b               8888^^'       8888b
+                                   d888           ,%888b.            d888           ,%888b.
+                                  d88%            %%%8--'-.         d88%            %%%8--'-.
+                                 /88:.__ ,       _%-' ---  -       /88:.__ ,       _%-' ---  -
+                                     '''::===..-'   =  --.  `          '''::===..-'   =  --.  `
+
+                                    Cigar smoking Mona                  Capped Mona
+
+            """;
 
     @Test
-    void test(@TempDir Path dir) {
-        var storage = LocalFileCache.regular(dir.resolve("docs"), "json", Monkey.class);
+    void testTexts(@TempDir Path directory) {
+        var cache = LocalFileCache.regular(
+                directory.resolve("regular").resolve("texts"),
+                FileType.text("txt"));
 
-        assertThat(storage.count()).isEqualTo(0);
-        assertThat(storage.listIds()).isEmpty();
-        assertThat(storage.list()).isEmpty();
-        assertThat(storage.exists("see-no-evil")).isFalse();
-        assertThat(storage.exists("hear-no-evil")).isFalse();
-        assertThat(storage.exists("speak-no-evil")).isFalse();
-        assertThat(storage.load("see-no-evil")).isEqualTo(null);
-        assertThat(storage.load("hear-no-evil")).isEqualTo(null);
-        assertThat(storage.load("speak-no-evil")).isEqualTo(null);
+        assertThat(directory.resolve("regular").resolve("texts")).doesNotExist();
+        LocalFileCacheTest.load(cache, Map.of(
+                "Normal Mona", """
+                                  ____
+                                o8%8888,
+                              o88%8888888.
+                             8'-    -:8888b
+                            8'         8888
+                           d8.-=. ,==-.:888b
+                           >8 `~` :`~' d8888
+                           88         ,88888
+                           88b. `-~  ':88888
+                           888b ~==~ .:88888
+                           88888o--:':::8888
+                           `88888| :::' 8888b
+                           8888^^'       8888b
+                          d888           ,%888b.
+                         d88%            %%%8--'-.
+                        /88:.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """,
+                "Depressed Mona", """
+                                  ____
+                                o8%8888,
+                              o88%8888888.
+                             8'-    -:8888b
+                            8'         8888
+                           d8.-=. ,==-.:888b
+                           >8 `=` :`=' d8888
+                           88         ,88888
+                           88b` `--  ':88888
+                           888b -==- .:88888
+                           88888o--:':::8888
+                           `88888| :::' 8888b
+                           8888^^'       8888b
+                          d888           ,%888b.
+                         d88%            %%%8--'-.
+                        /88:.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """
+        ));
+        assertThat(directory.resolve("regular").resolve("texts")).exists().isNotEmptyDirectory();
 
-        assertThat(Files.exists(dir.resolve("docs"))).isFalse();
-        assertThat(Files.exists(dir.resolve("docs").resolve("see-no-evil.json"))).isFalse();
-        assertThat(Files.exists(dir.resolve("docs").resolve("hear-no-evil.json"))).isFalse();
-        assertThat(Files.exists(dir.resolve("docs").resolve("speak-no-evil.json"))).isFalse();
+        assertThat(directory.resolve("regular").resolve("texts").resolve("Normal Mona.txt"))
+                .exists()
+                .isRegularFile()
+                .isNotEmptyFile()
+                .hasContent("""
+                                  ____
+                                o8%8888,
+                              o88%8888888.
+                             8'-    -:8888b
+                            8'         8888
+                           d8.-=. ,==-.:888b
+                           >8 `~` :`~' d8888
+                           88         ,88888
+                           88b. `-~  ':88888
+                           888b ~==~ .:88888
+                           88888o--:':::8888
+                           `88888| :::' 8888b
+                           8888^^'       8888b
+                          d888           ,%888b.
+                         d88%            %%%8--'-.
+                        /88:.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """);
+        assertThat(directory.resolve("regular").resolve("texts").resolve("Depressed Mona.txt"))
+                .exists()
+                .isRegularFile()
+                .isNotEmptyFile()
+                .hasContent("""
+                                  ____
+                                o8%8888,
+                              o88%8888888.
+                             8'-    -:8888b
+                            8'         8888
+                           d8.-=. ,==-.:888b
+                           >8 `=` :`=' d8888
+                           88         ,88888
+                           88b` `--  ':88888
+                           888b -==- .:88888
+                           88888o--:':::8888
+                           `88888| :::' 8888b
+                           8888^^'       8888b
+                          d888           ,%888b.
+                         d88%            %%%8--'-.
+                        /88:.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """);
+    }
 
-        storage.save("see-no-evil", new Monkey("🙈"));
-        storage.save("hear-no-evil", new Monkey("🙉"));
-        storage.save("speak-no-evil", new Monkey("🙊"));
+    @Test
+    void testDocuments(@TempDir Path directory) {
+        var cache = LocalFileCache.regular(
+                directory.resolve("regular").resolve("documents"),
+                FileType.document("json", Document.class));
 
-        assertThat(Files.exists(dir.resolve("docs"))).isTrue();
-        assertThat(Files.exists(dir.resolve("docs").resolve("see-no-evil.json"))).isTrue();
-        assertThat(Files.exists(dir.resolve("docs").resolve("hear-no-evil.json"))).isTrue();
-        assertThat(Files.exists(dir.resolve("docs").resolve("speak-no-evil.json"))).isTrue();
+        assertThat(directory.resolve("regular").resolve("json")).doesNotExist();
+        LocalFileCacheTest.load(cache, Map.of(
+                "Cool Mona", Document.create("""
+                                  ____
+                                o8%8888,
+                              o88%8888888.
+                             8'-    -:8888b
+                            8'         8888
+                           d8.-=. ,==-.:888b
+                           >8`88P''88P'd8888
+                           88         ,88888
+                           88b. `-~  ':88888
+                           888b ~==~ .:88888
+                           88888o--:':::8888
+                           `88888| :::' 8888b
+                           8888^^'       8888b
+                          d888           ,%888b.
+                         d88%            %%%8--'-.
+                        /88:.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """),
+                "Pouting Mona", Document.create("""
+                                  ____
+                                o8%8888,
+                              o88%8888888.
+                             8'-    -:8888b
+                            8'         8888
+                           d8.-=. ,==-.:888b
+                           >8 `~` :`~' d8888
+                           88         ,88888
+                           88b. `-~  ':88888
+                           888b .==. .:88888
+                           88888o--:':::8888
+                           `88888| :::' 8888b
+                           8888^^'       8888b
+                          d888           ,%888b.
+                         d88%            %%%8--'-.
+                        /88:.__ ,       _%-' ---  -
+                            '''::===..-'   =  --.  `
+                        """)));
+        assertThat(directory.resolve("regular").resolve("documents")).exists().isNotEmptyDirectory();
 
-        assertThat(storage.count()).isEqualTo(3);
-        assertThat(storage.listIds()).containsOnly("see-no-evil", "hear-no-evil", "speak-no-evil");
-        assertThat(storage.list()).containsOnly(new Monkey("🙈"), new Monkey("🙉"), new Monkey("🙊"));
-        assertThat(storage.exists("see-no-evil")).isTrue();
-        assertThat(storage.exists("hear-no-evil")).isTrue();
-        assertThat(storage.exists("speak-no-evil")).isTrue();
-        assertThat(storage.load("see-no-evil")).isEqualTo(new Monkey("🙈"));
-        assertThat(storage.load("hear-no-evil")).isEqualTo(new Monkey("🙉"));
-        assertThat(storage.load("speak-no-evil")).isEqualTo(new Monkey("🙊"));
+        assertThat(directory.resolve("regular").resolve("documents").resolve("Cool Mona.json"))
+                .exists()
+                .isRegularFile()
+                .isNotEmptyFile()
+                .hasContent("""
+                        {
+                          "lines" : {
+                            "01" : "          ____",
+                            "02" : "        o8%8888,",
+                            "03" : "      o88%8888888.",
+                            "04" : "     8'-    -:8888b",
+                            "05" : "    8'         8888",
+                            "06" : "   d8.-=. ,==-.:888b",
+                            "07" : "   >8`88P''88P'd8888",
+                            "08" : "   88         ,88888",
+                            "09" : "   88b. `-~  ':88888",
+                            "10" : "   888b ~==~ .:88888",
+                            "11" : "   88888o--:':::8888",
+                            "12" : "   `88888| :::' 8888b",
+                            "13" : "   8888^^'       8888b",
+                            "14" : "  d888           ,%888b.",
+                            "15" : " d88%            %%%8--'-.",
+                            "16" : "/88:.__ ,       _%-' ---  -",
+                            "17" : "    '''::===..-'   =  --.  `"
+                          }
+                        }
+                        """);
+        assertThat(directory.resolve("regular").resolve("documents").resolve("Pouting Mona.json"))
+                .exists()
+                .isRegularFile()
+                .isNotEmptyFile()
+                .hasContent("""
+                        {
+                          "lines" : {
+                            "01" : "          ____",
+                            "02" : "        o8%8888,",
+                            "03" : "      o88%8888888.",
+                            "04" : "     8'-    -:8888b",
+                            "05" : "    8'         8888",
+                            "06" : "   d8.-=. ,==-.:888b",
+                            "07" : "   >8 `~` :`~' d8888",
+                            "08" : "   88         ,88888",
+                            "09" : "   88b. `-~  ':88888",
+                            "10" : "   888b .==. .:88888",
+                            "11" : "   88888o--:':::8888",
+                            "12" : "   `88888| :::' 8888b",
+                            "13" : "   8888^^'       8888b",
+                            "14" : "  d888           ,%888b.",
+                            "15" : " d88%            %%%8--'-.",
+                            "16" : "/88:.__ ,       _%-' ---  -",
+                            "17" : "    '''::===..-'   =  --.  `"
+                          }
+                        }
+                        """);
     }
 }
