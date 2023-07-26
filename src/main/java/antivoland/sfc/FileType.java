@@ -23,24 +23,24 @@ public class FileType<DATA> {
         return name.substring(0, name.length() - extension.length() - 1);
     }
 
-    String name(String id) {
-        return id + "." + extension;
-    }
-
     String name(Path file) {
         return file.getFileName().toString();
+    }
+
+    public String name(String id) {
+        return id + "." + extension;
     }
 
     boolean hasRequiredExtension(Path file) {
         return name(file).toLowerCase().endsWith("." + extension.toLowerCase());
     }
 
-    public static <DOCUMENT> FileType<DOCUMENT> document(String extension, Class<DOCUMENT> clazz) {
-        return new FileType<>(extension, IO.document(clazz));
-    }
-
     public static FileType<String> text(String extension) {
         return new FileType<>(extension, IO.text());
+    }
+
+    public static <DATA> FileType<DATA> document(String extension, Class<DATA> clazz) {
+        return new FileType<>(extension, IO.document(clazz));
     }
 
     static <DATA> FileType<DATA> archive(FileType<DATA> fileType) {

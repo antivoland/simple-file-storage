@@ -53,8 +53,8 @@ public class FileCache<DATA> {
 
     public void save(String id, DATA data) {
         var file = file(id, true);
-        try (OutputStream out = Files.newOutputStream(file)) {
-            fileType.io.write(out, data);
+        try (OutputStream o = Files.newOutputStream(file)) {
+            fileType.io.write(o, data);
         } catch (IOException e) {
             throw new FileCacheException(format("Failed to save file '%s'", file), e);
         }

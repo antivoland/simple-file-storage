@@ -11,12 +11,12 @@ public interface IO<DATA> {
 
     void write(OutputStream o, DATA data) throws IOException;
 
-    static <DATA> IO<DATA> document(Class<DATA> clazz) {
-        return new DocumentIO<>(clazz);
-    }
-
     static IO<String> text() {
         return TextIO.INSTANCE;
+    }
+
+    static <DATA> IO<DATA> document(Class<DATA> clazz) {
+        return new DocumentIO<>(clazz);
     }
 
     static <DATA> IO<DATA> archive(FileType<DATA> fileType) {

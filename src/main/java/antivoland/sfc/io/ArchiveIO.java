@@ -32,7 +32,7 @@ class ArchiveIO<DATA> implements IO<DATA> {
         try (var go = new GzipCompressorOutputStream(o);
              var to = new TarArchiveOutputStream(go)) {
 
-            var entry = new TarArchiveEntry("entry." + fileType.extension);
+            var entry = new TarArchiveEntry(fileType.name("entry"));
             byte[] bytes = bytes(data);
             entry.setSize(bytes.length);
             to.putArchiveEntry(entry);
