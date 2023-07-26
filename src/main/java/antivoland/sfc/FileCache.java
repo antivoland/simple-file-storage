@@ -1,4 +1,4 @@
-package antivoland.file.cache.local;
+package antivoland.sfc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,11 +9,11 @@ import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
-public class LocalFileCache<DATA> {
+public class FileCache<DATA> {
     private final Path directory;
     private final FileType<DATA> fileType;
 
-    private LocalFileCache(Path directory, FileType<DATA> fileType) {
+    private FileCache(Path directory, FileType<DATA> fileType) {
         this.directory = directory;
         this.fileType = fileType;
     }
@@ -29,7 +29,7 @@ public class LocalFileCache<DATA> {
         try (var files = Files.walk(directory).filter(Files::isRegularFile).filter(fileType::hasRequiredExtension)) {
             return files.map(fileType::id).toList().stream();
         } catch (IOException e) {
-            throw new LocalFileCacheException(format("Failed to traverse files in directory '%s'", directory), e);
+            throw new FileCacheException(format("Failed to traverse files in directory '%s'", directory), e);
         }
     }
 
@@ -47,7 +47,7 @@ public class LocalFileCache<DATA> {
         try (InputStream i = Files.newInputStream(file)) {
             return fileType.io.read(i);
         } catch (IOException e) {
-            throw new LocalFileCacheException(format("Failed to load file '%s'", file), e);
+            throw new FileCacheException(format("Failed to load file '%s'", file), e);
         }
     }
 
@@ -56,7 +56,7 @@ public class LocalFileCache<DATA> {
         try (OutputStream out = Files.newOutputStream(file)) {
             fileType.io.write(out, data);
         } catch (IOException e) {
-            throw new LocalFileCacheException(format("Failed to save file '%s'", file), e);
+            throw new FileCacheException(format("Failed to save file '%s'", file), e);
         }
     }
 
@@ -77,17 +77,17 @@ public class LocalFileCache<DATA> {
             try {
                 Files.createDirectories(directory);
             } catch (IOException e) {
-                throw new LocalFileCacheException(format("Failed to create directory '%s'", directory), e);
+                throw new FileCacheException(format("Failed to create directory '%s'", directory), e);
             }
         }
         return directory;
     }
 
-    public static <DATA> LocalFileCache<DATA> regular(Path directory, FileType<DATA> fileType) {
-        return new LocalFileCache<>(directory, fileType);
+    public static <DATA> FileCache<DATA> regular(Path directory, FileType<DATA> fileType) {
+        return new FileCache<>(directory, fileType);
     }
 
-    public static <DATA> LocalFileCache<DATA> compressed(Path directory, FileType<DATA> fileType) {
-        return new LocalFileCache<>(directory, FileType.archive(fileType));
+    public static <DATA> FileCache<DATA> compressed(Path directory, FileType<DATA> fileType) {
+        return new FileCache<>(directory, FileType.archive(fileType));
     }
 }

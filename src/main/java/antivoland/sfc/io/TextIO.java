@@ -1,4 +1,4 @@
-package antivoland.file.cache.local.io;
+package antivoland.sfc.io;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

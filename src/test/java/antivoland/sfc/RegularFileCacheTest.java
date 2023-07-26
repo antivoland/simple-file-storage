@@ -1,4 +1,4 @@
-package antivoland.file.cache.local;
+package antivoland.sfc;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -8,10 +8,10 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RegularLocalFileCacheTest {
+class RegularFileCacheTest {
     @Test
     void testTexts(@TempDir Path directory) {
-        var cache = LocalFileCache.regular(
+        var cache = FileCache.regular(
                 directory.resolve("regular").resolve("texts"),
                 FileType.text("txt"));
 
@@ -108,7 +108,7 @@ class RegularLocalFileCacheTest {
 
     @Test
     void testDocuments(@TempDir Path directory) {
-        var cache = LocalFileCache.regular(
+        var cache = FileCache.regular(
                 directory.resolve("regular").resolve("documents"),
                 FileType.document("json", Document.class));
 

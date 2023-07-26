@@ -1,6 +1,6 @@
-package antivoland.file.cache.local.io;
+package antivoland.sfc.io;
 
-import antivoland.file.cache.local.FileType;
+import antivoland.sfc.FileType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,15 +11,15 @@ public interface IO<DATA> {
 
     void write(OutputStream o, DATA data) throws IOException;
 
-    static <DATA> DocumentIO<DATA> document(Class<DATA> clazz) {
+    static <DATA> IO<DATA> document(Class<DATA> clazz) {
         return new DocumentIO<>(clazz);
     }
 
-    static TextIO text() {
+    static IO<String> text() {
         return TextIO.INSTANCE;
     }
 
-    static <DATA> ArchiveIO<DATA> archive(FileType<DATA> fileType) {
+    static <DATA> IO<DATA> archive(FileType<DATA> fileType) {
         return new ArchiveIO<>(fileType);
     }
 }

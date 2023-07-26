@@ -1,4 +1,4 @@
-package antivoland.file.cache.local.io;
+package antivoland.sfc.io;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;

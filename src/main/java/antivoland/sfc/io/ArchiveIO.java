@@ -1,6 +1,6 @@
-package antivoland.file.cache.local.io;
+package antivoland.sfc.io;
 
-import antivoland.file.cache.local.FileType;
+import antivoland.sfc.FileType;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
