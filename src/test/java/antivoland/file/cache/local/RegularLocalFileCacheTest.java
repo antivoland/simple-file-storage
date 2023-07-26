@@ -1,4 +1,4 @@
-package antivoland.sfs;
+package antivoland.file.cache.local;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -8,12 +8,12 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RegularFileStorageTest {
+class RegularLocalFileCacheTest {
     record Monkey(String val) {}
 
     @Test
     void test(@TempDir Path dir) {
-        var storage = Storage.regular(dir.resolve("docs"), "json", Monkey.class);
+        var storage = LocalFileCache.regular(dir.resolve("docs"), "json", Monkey.class);
 
         assertThat(storage.count()).isEqualTo(0);
         assertThat(storage.listIds()).isEmpty();

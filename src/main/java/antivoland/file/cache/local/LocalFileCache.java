@@ -1,4 +1,7 @@
-package antivoland.sfs;
+package antivoland.file.cache.local;
+
+import antivoland.file.cache.FileCache;
+import antivoland.file.cache.FileCacheException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,11 +10,11 @@ import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
-abstract class FileStorage<DATA> implements Storage<DATA> {
+public abstract class LocalFileCache<DATA> implements FileCache<DATA> {
     private final Path directory;
     private final String fileExtension;
 
-    FileStorage(Path directory, String fileExtension) {
+    protected LocalFileCache(Path directory, String fileExtension) {
         this.directory = directory;
         this.fileExtension = fileExtension;
     }
@@ -24,7 +27,7 @@ abstract class FileStorage<DATA> implements Storage<DATA> {
         try (var files = Files.walk(directory).filter(Files::isRegularFile).filter(this::hasRequiredFileExtension)) {
             return files.map(this::fileId).toList().stream();
         } catch (IOException e) {
-            throw new StorageException(format("Failed to traverse files in directory '%s'", directory), e);
+            throw new FileCacheException(format("Failed to traverse files in directory '%s'", directory), e);
         }
     }
 
@@ -70,9 +73,17 @@ abstract class FileStorage<DATA> implements Storage<DATA> {
             try {
                 Files.createDirectories(directory);
             } catch (IOException e) {
-                throw new StorageException(format("Failed to create directory '%s'", directory), e);
+                throw new FileCacheException(format("Failed to create directory '%s'", directory), e);
             }
         }
         return directory;
+    }
+
+    public static <DATA> LocalFileCache<DATA> regular(Path directory, String fileExtension, Class<DATA> clazz) {
+        return new RegularLocalFileCache<>(directory, fileExtension, clazz);
+    }
+
+    public static <DATA> LocalFileCache<DATA> compressed(Path directory, String fileExtension, Class<DATA> clazz) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }
