@@ -8,7 +8,7 @@
     <artifactId>simple-file-cache</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>SimpleFileCache</name>
+    <name>Simple file cache</name>
     <description>Java library for easy management of local file cache</description>
     <inceptionYear>2023</inceptionYear>
     <url>https://github.com/antivoland/simple-file-cache</url>
