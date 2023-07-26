@@ -11,11 +11,11 @@ import java.io.OutputStream;
 class LocalFileIO {
     private static final ObjectMapper MAPPER = JsonMapper.builder().addModule(new JavaTimeModule()).build();
 
-    static <DATA> DATA read(InputStream in, Class<DATA> clazz) throws IOException {
-        return MAPPER.readValue(in, clazz);
+    static <DATA> DATA read(InputStream i, Class<DATA> clazz) throws IOException {
+        return MAPPER.readValue(i, clazz);
     }
 
-    static <DATA> void write(OutputStream out, DATA data) throws IOException {
-        MAPPER.writerWithDefaultPrettyPrinter().writeValue(out, data);
+    static <DATA> void write(OutputStream o, DATA data) throws IOException {
+        MAPPER.writerWithDefaultPrettyPrinter().writeValue(o, data);
     }
 }

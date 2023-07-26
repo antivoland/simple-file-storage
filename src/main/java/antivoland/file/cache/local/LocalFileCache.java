@@ -84,6 +84,6 @@ public abstract class LocalFileCache<DATA> implements FileCache<DATA> {
     }
 
     public static <DATA> LocalFileCache<DATA> compressed(Path directory, String fileExtension, Class<DATA> clazz) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return new CompressedLocalFileCache<>(directory, fileExtension, clazz);
     }
 }
