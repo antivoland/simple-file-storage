@@ -1,7 +1,7 @@
 # Simple file cache
 
-[![build](https://github.com/antivoland/simple-file-storage/workflows/build/badge.svg)](https://github.com/antivoland/simple-file-storage/actions/workflows/build.yml)
-[![publish](https://github.com/antivoland/simple-file-storage/workflows/publish/badge.svg)](https://github.com/antivoland/simple-file-storage/actions/workflows/publish.yml)
+[![build](https://github.com/antivoland/simple-file-storage/workflows/build/badge.svg)](https://github.com/antivoland/simple-file-storage/actions/workflows/build.yaml)
+[![publish](https://github.com/antivoland/simple-file-storage/workflows/publish/badge.svg)](https://github.com/antivoland/simple-file-storage/actions/workflows/publish.yaml)
 
 Java library for easy management of local file cache. Best used with any kind of HTML scrapers. Check out the tests for a better understanding. Use the following Maven dependency:
 
