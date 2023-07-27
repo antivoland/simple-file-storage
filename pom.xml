@@ -4,7 +4,7 @@
 
     <groupId>io.github.antivoland</groupId>
     <artifactId>simple-file-cache</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Simple file cache</name>
     <description>Java library for easy management of local file cache</description>
@@ -28,10 +28,10 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/antivoland/simple-file-cache.git</connection>
-        <developerConnection>scm:git:https://github.com/antivoland/simple-file-cache.git</developerConnection>
+        <connection>scm:git:git://github.com/antivoland/simple-file-cache.git</connection>
+        <developerConnection>scm:git:ssh://github.com/antivoland/simple-file-cache.git</developerConnection>
         <url>https://github.com/antivoland/simple-file-cache</url>
-        <tag>simple-file-cache-0.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
