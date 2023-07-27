@@ -14,18 +14,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Release
-        uses: qcastel/github-actions-maven-release@master
-        env:
-          JAVA_HOME: /usr/lib/jvm/java-17-openjdk/
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          release-branch-name: "main"
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
-          git-release-bot-name: "antibot"
-          git-release-bot-email: "antibot@github"
-
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-          gpg-enabled: true
-          gpg-key-id: ${{ secrets.GPG_KEY_ID }}
-          gpg-key: ${{ secrets.GPG_KEY }}
+      - name: Publish
+        run: mvn --batch-mode deploy
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
