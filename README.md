@@ -8,6 +8,6 @@ Java library for easy management of local file cache. Best used with any kind of
 <dependency>
     <groupId>io.github.antivoland</groupId>
     <artifactId>simple-file-cache</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.1-SNAPSHOT</version>
 </dependency>
 ```
