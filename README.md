@@ -1,4 +1,4 @@
-# Simple file cache
+# Simple File Storage (SFS)
 
 [![build](https://github.com/antivoland/simple-file-storage/workflows/build/badge.svg)](https://github.com/antivoland/simple-file-storage/actions/workflows/build.yaml)
 [![publish](https://github.com/antivoland/simple-file-storage/workflows/publish/badge.svg)](https://github.com/antivoland/simple-file-storage/actions/workflows/publish.yaml)
