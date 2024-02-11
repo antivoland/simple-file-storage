@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.antivoland</groupId>
-    <artifactId>simple-file-cache</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <artifactId>simple-file-storage</artifactId>
+    <version>0.1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Simple file cache</name>
-    <description>Java library for easy management of local file cache</description>
+    <name>Simple file storage</name>
+    <description>Java library for easy management of local files</description>
     <inceptionYear>2023</inceptionYear>
-    <url>https://github.com/antivoland/simple-file-cache</url>
+    <url>https://github.com/antivoland/simple-file-storage</url>
 
     <developers>
         <developer>
@@ -28,9 +28,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/antivoland/simple-file-cache.git</connection>
-        <developerConnection>scm:git:git://github.com/antivoland/simple-file-cache.git</developerConnection>
-        <url>git@github.com:antivoland/simple-file-cache.git</url>
+        <connection>scm:git:git://github.com/antivoland/simple-file-storage.git</connection>
+        <developerConnection>scm:git:git://github.com/antivoland/simple-file-storage.git</developerConnection>
+        <url>git@github.com:antivoland/simple-file-storage.git</url>
         <tag>HEAD</tag>
     </scm>
 

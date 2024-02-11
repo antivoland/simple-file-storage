@@ -1,4 +1,4 @@
-package io.github.antivoland.sfc;
+package io.github.antivoland.sfs;
 
 import java.util.Map;
 import java.util.TreeMap;

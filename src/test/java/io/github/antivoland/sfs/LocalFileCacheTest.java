@@ -1,11 +1,11 @@
-package io.github.antivoland.sfc;
+package io.github.antivoland.sfs;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LocalFileCacheTest {
-    static <DOCUMENT> void load(FileCache<DOCUMENT> cache, Map<String, DOCUMENT> documents) {
+    static <DOCUMENT> void load(FileStorage<DOCUMENT> cache, Map<String, DOCUMENT> documents) {
         assertThat(documents.size()).isGreaterThan(0);
 
         assertThat(cache.count()).isEqualTo(0);

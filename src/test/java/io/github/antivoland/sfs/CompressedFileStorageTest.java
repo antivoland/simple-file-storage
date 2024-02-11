@@ -1,4 +1,4 @@
-package io.github.antivoland.sfc;
+package io.github.antivoland.sfs;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -8,10 +8,10 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CompressedFileCacheTest {
+class CompressedFileStorageTest {
     @Test
     void testTexts(@TempDir Path directory) {
-        var cache = FileCache.compressed(
+        var cache = FileStorage.compressed(
                 directory.resolve("compressed").resolve("texts"),
                 FileType.text("txt"));
 
@@ -112,7 +112,7 @@ class CompressedFileCacheTest {
 
     @Test
     void testDocuments(@TempDir Path directory) {
-        var cache = FileCache.compressed(
+        var cache = FileStorage.compressed(
                 directory.resolve("compressed").resolve("documents"),
                 FileType.document("json", Document.class));
 

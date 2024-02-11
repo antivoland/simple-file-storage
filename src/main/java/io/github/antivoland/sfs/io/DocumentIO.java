@@ -1,4 +1,4 @@
-package io.github.antivoland.sfc.io;
+package io.github.antivoland.sfs.io;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
