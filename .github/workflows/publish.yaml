@@ -1,9 +1,8 @@
 name: publish
 
-#on:
-#  push:
-#    branches:
-#      - main
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
   publish:
@@ -16,7 +15,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '23'
           distribution: 'temurin'
           cache: maven
           server-id: ossrh
